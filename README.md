@@ -8,8 +8,8 @@ python3 miflora-rest.py
 ```
 
 Routes available (curl http://localhost:5000):
-`GET /sensor/<mac_address>` - pass the mac address of a MiFlora
-`GET /all_sensors` - array of all sensor data
+ - `GET /sensor/<mac_address>` - pass the mac address of a MiFlora
+ - `GET /all_sensors` - array of all sensor data
 
 Model returns as: 
 ```json
