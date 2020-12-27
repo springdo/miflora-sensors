@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from prometheus_client import start_http_server, Gauge
 import random
 import time
@@ -29,6 +27,7 @@ SENSOR = Gauge('miflora_primary', 'Sensor Data from MiFlora plant sensor', [
 # update metrics every 15s
 UPDATE_PERIOD = 15
 
+print("Starting miflora exporter")
 
 def process_sensor():
     """Poll data from the sensor."""
