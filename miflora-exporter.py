@@ -21,7 +21,7 @@ from miflora.miflora_poller import (
 # gBattery = Gauge('battery', 'light by the plant')
 
 # sensor 1 = C4:7C:8D:6B:D6:51
-SENSOR = Gauge('MiFlora', 'Sensor Data from MiFlora plant sensor', [
+SENSOR = Gauge('miflora_primary', 'Sensor Data from MiFlora plant sensor', [
                'resource_type'])
 
 # update metrics every 15s
@@ -31,14 +31,13 @@ UPDATE_PERIOD = 15
 def process_sensor():
     """Poll data from the sensor."""
     poller = MiFloraPoller("C4:7C:8D:6B:D6:51", BluepyBackend)
-    print("Getting data from Mi Flora")
+    # print("Getting data from Mi Flora")
 
     SENSOR.labels('temperature').set(poller.parameter_value(MI_TEMPERATURE))
     SENSOR.labels('moisture').set(poller.parameter_value(MI_MOISTURE))
     SENSOR.labels('light').set(poller.parameter_value(MI_LIGHT))
     SENSOR.labels('conductivity').set(poller.parameter_value(MI_CONDUCTIVITY))
     SENSOR.labels('battery').set(poller.parameter_value(MI_BATTERY))
-
 
 if __name__ == '__main__':
     # Start up the server to expose the metrics.
