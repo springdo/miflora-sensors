@@ -1,11 +1,24 @@
 ## Miflora Sensor Project
 
-Flask app to read values from sensors. 
+Flask app to read values from sensors.
 
 ```bash
 pip3 install -r requirements
-python3 miflora-rest.py 
 ```
+
+Fix for blte 
+`sudo setcap 'cap_net_raw,cap_net_admin+eip' ~/.local/lib/python3.7/site-packages/bluepy/bluepy-helper`
+
+## running the prometheus exporter 
+
+`./forever.sh miflora-exporter.py`
+or
+`nohup ./forever.sh miflora-exporter.py` 
+
+
+## Running the rest api
+
+`python3 miflora-rest.py `
 
 Routes available (curl http://localhost:5000):
  - `GET /sensor/<mac_address>` - pass the mac address of a MiFlora
@@ -21,4 +34,3 @@ Model returns as:
   "battery": 100
 }
 ```
-
