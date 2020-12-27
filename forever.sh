@@ -1,16 +1,19 @@
 #!/bin/bash
 
-# SCRIPT_NAME=miflora-exporter.py
 
 if [ -z ${1} ]; then
   echo "🤥 No Python3 script found - please pass one 🤥 "
+  exit 1
 fi
 
+SCRIPT_NAME=${1:=miflora-exporter.py}
+
 run(){
-  python3 ${1}
+  echo "🏃‍♂️ Running ${SCRIPT_NAME}"
+  python3 ${SCRIPT_NAME}
 }
 
-until ${1}; do
-  echo "${1} crashed with exit code $?. Restarting..." >&2
+until run; do
+  echo "${SCRIPT_NAME} crashed with exit code $?. Restarting..." >&2
   sleep 2
 done
