@@ -10,7 +10,7 @@ SCRIPT_NAME=${1:=miflora-exporter.py}
 
 run(){
   echo "🏃‍♂️ Running ${SCRIPT_NAME}"
-  python3 ${SCRIPT_NAME}
+  python3 -u ${SCRIPT_NAME}
 }
 
 until run; do
