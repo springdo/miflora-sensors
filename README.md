@@ -13,7 +13,7 @@ Fix for blte
 
 `./forever.sh miflora-exporter.py`
 or
-`nohup ./forever.sh miflora-exporter.py` 
+`nohup ./forever.sh miflora-exporter.py > exporter.log &` 
 
 
 ## Running the rest api
