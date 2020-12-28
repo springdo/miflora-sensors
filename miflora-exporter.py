@@ -1,6 +1,7 @@
 from prometheus_client import start_http_server, Gauge
 import random
 import time
+from datetime import datetime
 from btlewrap import BluepyBackend
 
 from miflora import miflora_scanner
@@ -28,6 +29,10 @@ SENSOR = Gauge('miflora_primary', 'Sensor Data from MiFlora plant sensor', [
 UPDATE_PERIOD = 15
 
 print("Starting miflora exporter")
+dateTimeObj = datetime.now(tz="GMT")
+timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+print('Current Timestamp : ', timestampStr)
+
 
 def process_sensor():
     """Poll data from the sensor."""
