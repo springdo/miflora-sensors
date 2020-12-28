@@ -29,7 +29,7 @@ SENSOR = Gauge('miflora_primary', 'Sensor Data from MiFlora plant sensor', [
 UPDATE_PERIOD = 15
 
 print("Starting miflora exporter")
-dateTimeObj = datetime.now(tz="GMT")
+dateTimeObj = datetime.now()
 timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
 print('Current Timestamp : ', timestampStr)
 
