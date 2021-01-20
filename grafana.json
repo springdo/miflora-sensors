@@ -191,7 +191,7 @@
           "decimals": null,
           "format": "lux",
           "label": null,
-          "logBase": 1,
+          "logBase": 10,
           "max": "30000",
           "min": "0",
           "show": true
@@ -293,8 +293,8 @@
           "format": "celsius",
           "label": "",
           "logBase": 1,
-          "max": "50",
-          "min": "0",
+          "max": "40",
+          "min": "10",
           "show": true
         },
         {
@@ -388,7 +388,7 @@
           "decimals": null,
           "format": "Soil Fertility",
           "label": null,
-          "logBase": 1,
+          "logBase": 10,
           "max": "2500",
           "min": "0",
           "show": true
@@ -416,12 +416,12 @@
     "list": []
   },
   "time": {
-    "from": "2020-12-27T22:36:12.053Z",
-    "to": "2020-12-28T00:50:45.143Z"
+    "from": "now-30m",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "FlowerPower🌻",
   "uid": "bEiDVEbGk",
-  "version": 4
+  "version": 5
 }
