@@ -58,7 +58,7 @@ def process_sensor():
 
 if __name__ == '__main__':
     # Start up the server to expose the metrics.
-    start_http_server(PORT)
+    start_http_server(int(PORT))
     # Generate some requests.
     while True:
         process_sensor()
