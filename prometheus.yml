@@ -10,15 +10,27 @@ scrape_configs:
   - job_name: prometheus
     static_configs:
       - targets: ['localhost:9090']
-  - job_name: miflora
+  - job_name: a
     metrics_path: '/'
     static_configs:
       - targets: ['192.168.86.30:6000']
-  - job_name: rubberplant
+  - job_name: b
     metrics_path: '/'
     static_configs:
       - targets: ['192.168.86.30:6001']
-  - job_name: rubberplant2
+  - job_name: c
     metrics_path: '/'
     static_configs:
       - targets: ['192.168.86.30:6002']
+  - job_name: d
+    metrics_path: '/'
+    static_configs:
+      - targets: ['192.168.86.29:6010']
+  - job_name: e
+    metrics_path: '/'
+    static_configs:
+      - targets: ['192.168.86.29:6011']
+  - job_name: f
+    metrics_path: '/'
+    static_configs:
+      - targets: ['192.168.86.29:6012']
