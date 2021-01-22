@@ -1,0 +1,8 @@
+groups:
+- name: internet.rules
+  rules:
+  - alert: InternetDown
+    expr: probe_success == 0
+    annotations:
+      DESCRIPTION: '{{$labels.instance}} internet connection down'
+      SUMMARY: '{{$labels.instance}} down'
