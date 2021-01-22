@@ -1,0 +1,8 @@
+groups:
+- name: moisture.rules
+  rules:
+  - alert: DryPlants
+    expr: miflora_primary{resource_type="moisture"} < 20
+    annotations:
+      DESCRIPTION: '{{$labels.jobs}} dry'
+      SUMMARY: '{{$labels.job}} in {{$labels.instance}} needs to be watered'

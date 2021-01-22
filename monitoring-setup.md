@@ -3,16 +3,18 @@
 ### Alert Manager and Prometheus
 
 ```
-docker run --name prometheuz -p 9090:9090 \
-    --link alerts-prometheuz \
-    -v ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml \
-    -v ${PWD}/example.rules:/etc/prometheus/example.rules \
-    -v ${HOME}/prometheuz_data:/prometheus \
-    quay.io/prometheus/prometheus -alertmanager.url=http://alerts-prometheuz:9093
-
 docker run -d --name=alerts-prometheuz -p 9093:9093 \
     -v ${PWD}/alertmanager.yml:/etc/alertmanager/alertmanager.yml \
     quay.io/prometheus/alertmanager
+
+docker run -d --name prometheuz -p 9090:9090 \
+    --link alerts-prometheuz \
+    --user "$(id -u):$(id -g)" \
+    -v ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml \
+    -v ${PWD}/moisture.rules:/etc/prometheus/moisture.rules \
+    -v ${HOME}/prometheuz_data:/prometheus:z \
+    quay.io/prometheus/prometheus
+
 ```
 
 ### Grafana
