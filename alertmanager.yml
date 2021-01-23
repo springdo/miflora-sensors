@@ -31,7 +31,7 @@ route:
 
   # If an alert has successfully been sent, wait 'repeat_interval' to
   # resend them.
-  repeat_interval: 24h 
+  repeat_interval: 1m 
 
   # A default receiver
   receiver: default-receiver
@@ -50,4 +50,4 @@ receivers:
   - name: default-receiver
   - name: webhook
     webhook_configs:
-      - url: "http://192.168.86.23:1880/webhook"
+      - url: "http://192.168.86.23:1880/alerting"
