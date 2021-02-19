@@ -36,12 +36,6 @@ scrape_configs:
           instance: living_room
 
   # Bedroom 
-  - job_name: pink_rubber
-    metrics_path: '/'
-    static_configs:
-      - targets: ['192.168.86.29:6010']
-        labels: 
-          instance: bedroom
   - job_name: cheese_plant
     metrics_path: '/'
     static_configs:
@@ -67,6 +61,12 @@ scrape_configs:
     static_configs:
       - targets: ['192.168.86.34:6021']
         labels: 
+          instance: babyroom
+  - job_name: pink_rubber
+    metrics_path: '/'
+    static_configs:
+      - targets: ['192.168.86.34:6022']
+        labels:
           instance: babyroom
   # - job_name: aralia_fabian
   #   metrics_path: '/'
