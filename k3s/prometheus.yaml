@@ -1,0 +1,216 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  miflora-prometheus
+data:
+  web-config.yml: |-
+    basic_auth_users:
+      prometheus: $2y$10$AvSCFKmwA9qS6dT50B61bOLgKcRwRD7v/2HAker0px7ToGZu49Evu
+
+  prometheus.yml: |-
+    global:
+      scrape_interval:     15s
+      evaluation_interval: 15s
+
+    rule_files:
+      - moisture.rules
+
+    scrape_configs:
+      - job_name: prometheus
+        static_configs:
+          - targets: ['localhost:9090']
+      # Living Room Scrapes
+      - job_name: baldy_ficus 
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.30:6000']
+            labels: 
+              instance: living_room
+      - job_name: rubber_tree
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.30:6001']
+            labels: 
+              instance: living_room
+      - job_name: japanese_bamboo
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.30:6002']
+            labels: 
+              instance: living_room
+      - job_name: sideshow_bob
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.30:6003']
+            labels: 
+              instance: living_room
+
+      # Bedroom 
+      - job_name: cheese_plant
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.29:6011']
+            labels: 
+              instance: bedroom
+      - job_name: money_tree
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.29:6012']
+            labels: 
+              instance: bedroom
+
+      # Babyroom 
+      - job_name: aralia_fabian
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.34:6020']
+            labels: 
+              instance: babyroom
+      - job_name: small_rubber_tree
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.34:6021']
+            labels: 
+              instance: babyroom
+      - job_name: pink_rubber
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.34:6022']
+            labels:
+              instance: babyroom
+      # - job_name: aralia_fabian
+      #   metrics_path: '/'
+      #   static_configs:
+      #     - targets: ['192.168.86.34:6022']
+      #       labels: 
+      #         instance: babyroom
+
+      # Spare room
+      - job_name: spider_plant
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.39:6030']
+            labels: 
+              instance: spareroom
+      - job_name: begonia
+        metrics_path: '/'
+        static_configs:
+          - targets: ['192.168.86.39:6031']
+            labels: 
+              instance: spareroom
+
+    alerting:
+      alertmanagers:
+      - scheme: http
+        static_configs:
+        - targets:
+          - "alertmanager:9093"
+  moisture.rules: |-
+    groups:
+    - name: moisture.rules
+      rules:
+      - alert: DryPlants
+        expr: miflora_primary{resource_type="moisture"} < 20
+        annotations:
+          DESCRIPTION: '{{$labels.job}} dry plant'
+          SUMMARY: '{{$labels.job}} in {{$labels.instance}} needs to be watered'
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 10G
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: miflora-prometheus
+spec:
+  ports:
+    - port: 9090
+      protocol: TCP
+      targetPort: 9090
+      name: 9090-tcp
+  selector:
+    deployment: miflora-prometheus
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miflora-prometheus
+spec:
+  selector:
+    matchLabels:
+      deployment: miflora-prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deployment: miflora-prometheus
+    spec:
+      containers:
+      - name: prometheus
+        imagePullPolicy: Always
+        image: "quay.io/prometheus/prometheus"
+        args:
+            - --config.file=/etc/prometheus/prometheus.yml
+            - --web.config.file=/etc/prometheus/web-config.yml
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        resources: {}
+        readinessProbe:
+          # httpGet:
+          #   path: /
+          #   port: 9090
+          # initialDelaySeconds: 10
+          # timeoutSeconds: 1
+        volumeMounts:
+          - mountPath: "/etc/prometheus/"
+            name: "miflora-prometheus-config" 
+          - mountPath: "/prometheus"
+            name: "miflora-prometheus-data" 
+      volumes:
+      - name: "miflora-prometheus-config"
+        configMap:
+          name: "miflora-prometheus"
+          defaultMode: 420
+      - name: "miflora-prometheus-data" 
+        persistentVolumeClaim:
+          claimName: prometheus-pvc
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: miflora-prometheus
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - secretName: miflora-prometheus-k3s-petbattle-app-tls
+      hosts:
+        - miflora-prometheus.k3s.petbattle.app
+  rules:
+  - host: miflora-prometheus.k3s.petbattle.app
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: miflora-prometheus
+            servicePort: 9090
