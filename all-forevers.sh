@@ -3,7 +3,7 @@
 
 # Label    =  Mac Address
 # -------- = ---------------
-# sensor A = C4:7C:8D:6B:D6:51
+# sensor A = C4:7C:8D:6B:D6:51 - not mine anymore :P
 # sensor B = C4:7C:8D:6C:3A:53
 # sensor C = C4:7C:8D:6C:3E:8C
 # sensor I = C4:7C:8D:6C:53:33
@@ -20,10 +20,10 @@
 
 
 # livingroompi
-nohup ./forever.sh C4:7C:8D:6B:D6:51 6000 >> exporter.log &
-nohup ./forever.sh C4:7C:8D:6C:3E:8C 6001 >> exporter.log &
-nohup ./forever.sh C4:7C:8D:6C:3A:53 6002 >> exporter.log &
-nohup ./forever.sh C4:7C:8D:6C:53:33 6003 >> exporter.log &
+nohup ./forever.sh C4:7C:8D:6C:3A:53 6000 >> /dev/null &
+nohup ./forever.sh C4:7C:8D:6C:3E:8C 6001 >> /dev/null &
+nohup ./forever.sh C4:7C:8D:6C:39:25 6002 >> /dev/null &
+nohup ./forever.sh C4:7C:8D:6C:57:61 6003 >> /dev/null &
 
 # bedroompi
 nohup ./forever.sh C4:7C:8D:6C:3E:06 6011 >> exporter.log &
