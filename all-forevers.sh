@@ -30,9 +30,9 @@ nohup ./forever.sh C4:7C:8D:6C:3E:06 6011 >> exporter.log &
 nohup ./forever.sh C4:7C:8D:6C:3E:76 6012 >> exporter.log &
 
 # babyroompi
-nohup ./forever.sh C4:7C:8D:6C:57:61 6020 >> exporter.log &
-nohup ./forever.sh C4:7C:8D:6C:57:CE 6021 >> exporter.log &
-nohup ./forever.sh C4:7C:8D:6C:39:25 6022 >> exporter.log &
+nohup ./forever.sh C4:7C:8D:6C:3E:06 6020 >> /dev/null &
+nohup ./forever.sh C4:7C:8D:6C:3E:76 6021 >> /dev/null &
+nohup ./forever.sh C4:7C:8D:6C:57:CE 6022 >> /dev/null &
 
 # spareroompi
 nohup ./forever.sh C4:7C:8D:6C:56:E5 6030 >> exporter.log &
